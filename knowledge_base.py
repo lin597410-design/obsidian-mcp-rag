@@ -15,7 +15,9 @@ def process_obsidian_note(md_text, file_name="unknown.md"):
     content_to_split = post.content
 
     wikilinks = re.findall(r'\[\[(.*?)\]\]', content_to_split)
-    unique_links = list(set(wikilinks))
+    # 过滤掉管道符 | 后面的别名，只保留真实文件名
+    clean_links = [link.split('|')[0] for link in wikilinks]
+    unique_links = list(set(clean_links))
 
     headers_to_split_on = [
         ("#", "Header 1"),
